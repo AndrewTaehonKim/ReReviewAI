@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "test": "php ./vendor/bin/pest && php artisan db:seed",
+        "route-reload": "php artisan route:clear && php artisan route:cache",
+        "migrate": "php artisan migrate:fresh && php artisan db:seed"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
