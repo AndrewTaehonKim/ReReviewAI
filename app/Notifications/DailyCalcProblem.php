@@ -18,7 +18,7 @@ class DailyCalcProblem extends Notification
     protected $problem;
     public function __construct($problem)
     {
-        $this->$problem = $problem;
+        $this->problem = json_encode($problem);
     }
 
     /**
@@ -37,9 +37,10 @@ class DailyCalcProblem extends Notification
     public function toMail(object $notifiable): Mailable
     {
         return (new Mailable)
+                    ->to($notifiable->email)
                     ->subject("Re:Review AI - Today's Review")
-                    ->view('calcProblem.email', [
-                        'problems' => $this->problem,
+                    ->markdown('calcProblem.email', [
+                        'problem' => $this->problem,
                     ]);
     }
 

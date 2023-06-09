@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Re:Review AI</title>
-</head>
-<body>
-    <h1>Daily Math Problems</h1>
-
-    <p>Here are the daily math problems:</p>
-
-    <pre>{{ $data }}</pre>
-
-    <p>Thank you for using our application!</p>
-</body>
-</html>
+<x-mail::message>
+# Invoice Paid
+Your invoice has been paid!
+Thanks,<br>
+</x-mail::message>
