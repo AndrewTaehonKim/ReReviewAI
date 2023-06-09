@@ -16,19 +16,22 @@ class CalcProblemController extends Controller
     {
         $filename = $request->input('type');
         $problemData = $this->runPythonScript($filename);
+
         // Fill out data for Calc Problem
         $problem = new CalcProblem();
         $problem->fill($problemData);
+
         // Connect Calc Problem to python file
         $pythonFile = PythonFile::where('filename', $filename.'.py')->first();
-        $problem->python_file_id = $pythonFile->id;
+        if($pythonFile){
+            $problem->python_file_id = $pythonFile->id;
+        }
+
         return $problem;
     }
 
     public function store(CalcProblem $problem)
     {
-        
-        
         // Save the model to the database
         $problem->save();
         // Get ID
@@ -58,6 +61,7 @@ class CalcProblemController extends Controller
     public function makeStore(Request $request)
     {
         $problem = $this->makeProblem($request);
+
         $id = $this->store($problem);
         return $id;
     }
@@ -99,12 +103,11 @@ class CalcProblemController extends Controller
             $randomProblem = CalcProblem::inRandomOrder()->first();
             $id = $randomProblem->id;
         }
-        
         return $id;
     }
 
     /* ------ RUN AND GET OUTPUT OF PYTHON SCRIPT --------*/
-    public function runPythonScript($filename)
+    private function runPythonScript($filename)
     {
         $pythonScriptPath = storage_path('app/python/calcBC/'.$filename.'.py');
         $process = new Process(['python', $pythonScriptPath], env: [

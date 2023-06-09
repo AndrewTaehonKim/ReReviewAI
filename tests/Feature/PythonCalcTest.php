@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\PythonFile;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
 beforeEach(function () {
     $this->seed(); // Seed the database
 });

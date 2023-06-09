@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /* Relationships */
+    public function calcProblems()
+    {
+        return $this->belongsToMany(CalcProblem::class, 'user_calcProblem')
+            ->withPivot('is_seen', 'is_mastered','is_prioritized','last_seen_at')
+            ->withTimestamps();
+    }
 }

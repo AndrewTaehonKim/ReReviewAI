@@ -13,6 +13,7 @@ class PythonFile extends Model
 
     protected $fillable = [
         'filename',
+        'filenameWithoutExtension',
         'path',
         'subject'
     ];
