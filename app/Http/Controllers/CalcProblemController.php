@@ -11,35 +11,6 @@ use Symfony\Component\Process\Process;
 
 class CalcProblemController extends Controller
 {
-    // Generates the Problems based on the type 
-    public function makeProblem(Request $request)
-    {
-        $filename = $request->input('type');
-        $problemData = $this->runPythonScript($filename);
-
-        // Fill out data for Calc Problem
-        $problem = new CalcProblem();
-        $problem->fill($problemData);
-
-        // Connect Calc Problem to python file
-        $pythonFile = PythonFile::where('filename', $filename.'.py')->first();
-        if($pythonFile){
-            $problem->python_file_id = $pythonFile->id;
-        }
-
-        return $problem;
-    }
-
-    public function store(CalcProblem $problem)
-    {
-        // Save the model to the database
-        $problem->save();
-        // Get ID
-        $id = $problem->id;
-        // redirect with success message
-        return $id;
-    }
-
     public function showProblem($id)
     {
         // Retrieve the calc problem from the database based on the ID
@@ -58,21 +29,13 @@ class CalcProblemController extends Controller
         return view('calcProblem.index', compact('calcProblem'));
     }
 
-    public function makeStore(Request $request)
-    {
-        $problem = $this->makeProblem($request);
-
-        $id = $this->store($problem);
-        return $id;
-    }
-
     public function makeStoreShow(Request $request)
     {
         $id = $this->makeStore($request);
         $view = $this->showProblem($id);
         return $view;
     }
-
+    
     public function getUniqueProblem(Request $request)
     {
         $id = 0; // initialize problem id
@@ -105,8 +68,42 @@ class CalcProblemController extends Controller
         }
         return $id;
     }
+    
+    // Generates the Problems based on the type 
+    private function makeProblem(Request $request)
+    {
+        $filename = $request->input('type');
+        $problemData = $this->runPythonScript($filename);
 
-    /* ------ RUN AND GET OUTPUT OF PYTHON SCRIPT --------*/
+        // Fill out data for Calc Problem
+        $problem = new CalcProblem();
+        $problem->fill($problemData);
+        // Connect Calc Problem to python file
+        $pythonFile = PythonFile::where('filename', $filename.'.py')->first();
+        if($pythonFile){
+            $problem->python_file_id = $pythonFile->id;
+        }
+        return $problem;
+    }
+
+    private function store(CalcProblem $problem)
+    {
+        // Save the model to the database
+        $problem->save();
+        // Get ID
+        $id = $problem->id;
+        // redirect with success message
+        return $id;
+    }
+
+    private function makeStore(Request $request)
+    {
+        $problem = $this->makeProblem($request);
+
+        $id = $this->store($problem);
+        return $id;
+    }
+
     private function runPythonScript($filename)
     {
         $pythonScriptPath = storage_path('app/python/calcBC/'.$filename.'.py');

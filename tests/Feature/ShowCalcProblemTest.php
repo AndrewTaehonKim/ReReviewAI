@@ -6,20 +6,18 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
+beforeEach(function () {
+    $this->seed(); // Seed the database
+});
 
 it('has shows the calc problem on a page', function () {
-    // generate fake problem data
-    $problem = CalcProblem::factory()->create();
-    // initialize CalcProblem Controller
-    $contoller = new CalcProblemController();
-    // run the function with problem object passed in
-    $problem_id = $contoller->store($problem);
-    // initialize user object
     $user = User::factory()->create();
+    $this->actingAs($user)->post('make-store-show-calc-problem', ['type' => 'power_rule']);
+    $this->post('make-store-show-calc-problem', ['type' => 'power_rule']);
 
     // run the route as gues and as auth
-    $response_auth = $this->actingAs($user)->get('calc-problem/'.$problem_id);
-    $response = $this->get('calc-problem/'.$problem_id);
+    $response_auth = $this->actingAs($user)->get('calc-problem/1');
+    $response = $this->get('calc-problem/2');
 
     // assertions and expectations
     $response_auth->assertStatus(200);

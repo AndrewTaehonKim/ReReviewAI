@@ -11,7 +11,7 @@ beforeEach(function () {
 
 it('checks for the pivot table being updated when user creates a problem', function () {
     # Make calc problem
-    $this->post('/make-store-calc-problem', ['type'=>'power_rule']);
+    $this->post('/make-store-show-calc-problem', ['type'=>'power_rule']);
     $user = User::factory()->create();
     Auth::login($user);
 
