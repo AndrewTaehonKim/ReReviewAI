@@ -14,5 +14,5 @@ it('sends an email with a calc problem', function () {
     // run command
     Artisan::call('email:send-daily-calc-problems');
     // Assert that the email job was dispatched
-    $spy->shouldHaveReceived('call')->with('send:daily-calc-problems');
-})->only();
+    $spy->shouldHaveReceived('call')->with('email:send-daily-calc-problems');
+});
