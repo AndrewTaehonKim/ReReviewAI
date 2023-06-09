@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CalcProblemController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /* Navigation Routes */
 // homepage
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 })->name('home');
     // show calc problem
 Route::get('/calc-problem/{id}', [CalcProblemController::class, 'showProblem'])->name('show-calc-problem');
