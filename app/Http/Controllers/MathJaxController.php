@@ -26,4 +26,32 @@ class MathJaxController extends Controller
             return null;
         }
     }
+
+    // converts a question string with delimiters ($ $) into an array of strings and data uris in order for later compilation
+    public function questionToParts(Request $request)
+    {
+        $question = $request->input('question');
+        $delimiter = '$';
+        $maths = [];
+        $allParts = explode($delimiter, $question);
+        $pattern = '/\$(.*?)\$/';
+        preg_match_all($pattern, $question, $maths);
+        
+        // this will store all the parts as either a string or datauri string
+        $finalArray = [];
+
+        // loop through all the parts of the string
+        foreach ($allParts as $part) {
+            // if this is a part is math
+            if (in_array($part, $maths[1])) {
+                $request = new Request(['equation' => $part]);
+                $item = $this->mathToDataURI($request);
+            }
+            else {
+                $item = $part;
+            }
+            array_push($finalArray, $item);
+        }
+        return $finalArray;
+    }
 }
