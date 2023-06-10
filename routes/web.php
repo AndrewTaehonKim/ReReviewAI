@@ -21,9 +21,8 @@ Route::get('/calc-problem/{id}', [CalcProblemController::class, 'showProblem'])-
 Route::post('/make-store-show-calc-problem', [CalcProblemController::class, 'makeStoreShow'])->name('make-store-show-calc-problem');
     // gets a problem that a user has not yet seen
 Route::post('/get-unique-calc-problem', [CalcProblemController::class, 'getUniqueProblem'])->name('get-unique-problem');
-    // turns a math equation into a DataURI
-Route::post('/math-to-html', [MathJaxController::class, 'mathToHTML'])->name('math-to-data-html');
-    // splits a question into strings and math equations (used for questions that have $$ in them)
+    // rewrite a stringEquation into html with embedded images
+Route::post('/math-to-html', [MathJaxController::class, 'mathToHTML'])->name('math-to-html');
 
 /* ------------------------------------------------ */
 

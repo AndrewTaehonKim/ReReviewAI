@@ -19,13 +19,13 @@ class CalcProblemFactory extends Factory
     public function definition(): array
     {
         return [
-            'question' => $this->faker->sentence,
-            'A' => $this->faker->sentence,
-            'B' => $this->faker->sentence,
-            'C' => $this->faker->sentence,
-            'D' => $this->faker->sentence,
+            'question' => 'Solve for $\\frac{dy}{dx}$ given $ y=e^x-cos(x) $. Good?',
+            'A' => 'The answer is: $e^x$',
+            'B' => '$\\frac{dy}{dx} = e^x+sin(x)$',
+            'C' => 'No',
+            'D' => '$\\frac{dy}{dx}$ = $e^x+sin(x)$',
             'answer_letter' => $this->faker->randomElement(['A', 'B', 'C', 'D']),
-            'answer' => $this->faker->sentence,
+            'answer' => 'The answer is: $\\frac{dy}{dx} = e^x+sin(x)$',
             'difficulty' => $this->faker->randomElement(['easy', 'medium', 'hard']),
             'tutorial_video' => $this->faker->url,
             'collegeboard_unit' => $this->faker->randomElement(['Unit 1', 'Unit 2', 'Unit 3']),

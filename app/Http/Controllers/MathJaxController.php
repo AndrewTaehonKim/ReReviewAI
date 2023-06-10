@@ -58,9 +58,11 @@ class MathJaxController extends Controller
     {
         $htmlCode = "<p>";
         $datauri = 'data:image/png';
+        $paths = [];
         foreach ($parts as $part) {
             if (strpos($part, $datauri) !== false){
                 $path = $this->convertToImage($part);
+                array_push($paths, $path);
                 $htmlCode.= '<img src="'. $path. '">';
             }
             else {
@@ -68,7 +70,7 @@ class MathJaxController extends Controller
             }
         }
         $htmlCode.= '</p>';
-        return ($htmlCode);
+        return [$htmlCode, $paths];
     }
 
     // converts a data URI into an image and returns the temporary path
@@ -95,7 +97,9 @@ class MathJaxController extends Controller
     {
         $stringEquation = $request->input('stringEquation');
         $array = $this->questionToParts($stringEquation);
-        $html = $this->partsToHTML($array);
-        return $html;
+        $partsToHTML = $this->partsToHTML($array);
+        $html = $partsToHTML[0];
+        $paths = $partsToHTML[1];
+        return [$html, $paths];
     }
 }

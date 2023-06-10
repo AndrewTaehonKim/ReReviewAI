@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\MathJaxController;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 it('creates an html p tag with inserted image tags for math equations', function () {
     // initialize variables
@@ -11,7 +13,24 @@ it('creates an html p tag with inserted image tags for math equations', function
     $response = $controller->partsToHTML($request);
 
     // assertion
-    expect($response)->toBeString();
+    expect($response[0])->toBeString();
+    expect($response[1])->toBeArray();
+    
+
+    // remove saved files
+    $directory = 'images/calc';
+    // Get all files in the directory
+    $files = Storage::allFiles($directory);
+    // Set the threshold date for deletion (e.g., delete files older than 7 days)
+    $thresholdDate = Carbon::now()->subMinutes(10);
+    // Delete files newer than the threshold date
+    foreach ($files as $file) {
+        $lastModified = Storage::lastModified($file);
+        $lastModifiedDate = Carbon::createFromTimestamp($lastModified);
+        if ($lastModifiedDate->greaterThanOrEqualTo($thresholdDate)) {
+            Storage::delete($file);
+        }
+    }
 })->group('MathJaxControllerPrivate')->skip();
 
 // change to public method for testing

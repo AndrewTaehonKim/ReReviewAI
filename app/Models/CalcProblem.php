@@ -35,4 +35,9 @@ class CalcProblem extends Model
         return $this->belongsTo(PythonFile::class, 'calc_problem_python_file')
             ->withTimestamps();
     }
+
+    public function calcHTML()
+    {
+        return $this->hasOne(CalcHTML::class);
+    }
 }
