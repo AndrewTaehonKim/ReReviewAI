@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CalcProblemController;
+use App\Models\CalcProblem;
 use Database\Factories\CalcProblemFactory;
 
 use Illuminate\Support\Facades\Storage;
@@ -17,10 +18,10 @@ it('saves all parts of the problem as html in the CalcHTML Database if it doesnt
     // initialize
     $controller = new CalcProblemController();
     $problemData = CalcProblemFactory::new()->create();
-
+    
     // get response
     $response = $controller->makeEmailData($problemData);
-    
+    $response2 = $controller->makeEmailData($problemData);
     // expectations
     expect($response)->toHaveKeys(
         [
@@ -37,6 +38,32 @@ it('saves all parts of the problem as html in the CalcHTML Database if it doesnt
         'tags',
         ]
     );
+    expect($response2)->toHaveKeys(
+        [
+        'question',
+        'A',
+        'B',
+        'C',
+        'D',
+        'answer_letter',
+        'answer',
+        'difficulty',
+        'tutorial_video',
+        'collegeboard_unit',
+        'tags',
+        ]
+    );
+    expect($response->question)->toBe($response2->question);
+    expect($response->A)->toBe($response2->A);
+    expect($response->B)->toBe($response2->B);
+    expect($response->C)->toBe($response2->C);
+    expect($response->D)->toBe($response2->D);
+    expect($response->answer_letter)->toBe($response2->answer_letter);
+    expect($response->answer)->toBe($response2->answer);
+    expect($response->difficulty)->toBe($response2->difficulty);
+    expect($response->tutorial_video)->toBe($response2->tutorial_video);
+    expect($response->collegeboard_unit)->toBe($response2->collegeboard_unit);
+    expect($response->tags)->toBe($response2->tags);
 
     // remove saved files
     $directory = 'images/calc';

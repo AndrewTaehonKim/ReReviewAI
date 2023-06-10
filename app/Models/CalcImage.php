@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CalcHTML extends Model
+class CalcImage extends Model
 {
     use HasFactory;
 
-    protected $table = 'calcHTML';
+    protected $table = 'calcImages';
 
     protected $fillable = [
         'question',

@@ -11,7 +11,7 @@ it('creates an html p tag with inserted image tags for math equations', function
     
     // get response
     $response = $controller->partsToHTML($request);
-
+    dd($response[0]);
     // assertion
     expect($response[0])->toBeString();
     expect($response[1])->toBeArray();

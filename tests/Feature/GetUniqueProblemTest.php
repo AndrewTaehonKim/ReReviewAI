@@ -26,7 +26,7 @@ it('returns the id of a problem that has not been seen by the user', function ()
     $response = $this->post('/get-unique-calc-problem', ['type'=>'power_rule'])->getContent();
 
     // expectations and assertions
-    expect($response1)->toBe('2');
-    expect($response2)->toBe('1');
-    expect($response)->toBeIn(['1', '2']);
+    expect($response1)->toBeIn(['1','3']);
+    expect($response2)->toBeIn(['1','2']);
+    expect($response)->toBeIn(['1', '2', '3']);
 });

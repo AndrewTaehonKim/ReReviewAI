@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\CalcProblemController;
+use App\Models\CalcProblem;
 use App\Models\User;
 use App\Notifications\DailyCalcProblem;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 
 class SendDailyCalcProblems extends Command
 {
@@ -21,21 +24,30 @@ class SendDailyCalcProblems extends Command
      * @var string
      */
     protected $description = 'Send daily calc problems';
-
     /**
      * Execute the console command.
      */
     public function handle()
     {
         // get all users
-        $users = User::all();
+        // $users = User::all();
+        $users = User::where('name', '!=', 'Test User')->get();
+
+        $problem_type = 'power_rule';
+        $request = new Request(['type' => $problem_type]);
+        $calcProblemController = new CalcProblemController();
         // loop through each user
         foreach ($users as $user)
         {
-            $data =['test'=>'testing text'];
-            $user->notify(new DailyCalcProblem($data));
+            // get unique problem id
+            $problemID = $calcProblemController->getUniqueProblem($request);
+
+            $problem = CalcProblem::FindorFail($problemID);
+            $calcEmail = $calcProblemController->makeEmailData($problem);
+            $user->notify(new DailyCalcProblem($calcEmail));
         }
 
-        $this->info('Emails Sent.');
+        // $this->info('Emails Sent.');
+        return("Email Sent");
     }
 }

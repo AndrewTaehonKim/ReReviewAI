@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\CalcProblemController;
-use App\Models\CalcProblem;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

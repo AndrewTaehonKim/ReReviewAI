@@ -36,8 +36,8 @@ class CalcProblem extends Model
             ->withTimestamps();
     }
 
-    public function calcHTML()
+    public function calcImage()
     {
-        return $this->hasOne(CalcHTML::class);
+        return $this->hasOne(CalcImage::class);
     }
 }

@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('C');
             $table->string('D');
             $table->string('answer');
-            $table->json('imagePaths');
             
             // connection to CalcProblem Database
             $table->foreignId('calc_problem_id')->nullable()->constrained('calc_problems');

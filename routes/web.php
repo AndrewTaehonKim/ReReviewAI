@@ -13,6 +13,11 @@ Route::get('/', function () {
 })->name('home');
     // show calc problem
 Route::get('/calc-problem/{id}', [CalcProblemController::class, 'showProblem'])->name('show-calc-problem');
+Route::get('/test', function () {
+    $data = '<p>Solve for <img src="storage_path(\'app/images/calc/image_64844267c0727.png\'))"></p>';
+
+    return view('calcProblem.email')->with('question', $data);
+});
 /* ------------------------------------------------ */
 
 /* Controller Routes */
@@ -22,7 +27,7 @@ Route::post('/make-store-show-calc-problem', [CalcProblemController::class, 'mak
     // gets a problem that a user has not yet seen
 Route::post('/get-unique-calc-problem', [CalcProblemController::class, 'getUniqueProblem'])->name('get-unique-problem');
     // rewrite a stringEquation into html with embedded images
-Route::post('/math-to-html', [MathJaxController::class, 'mathToHTML'])->name('math-to-html');
+Route::post('/math-to-image', [MathJaxController::class, 'mathToImage'])->name('math-to-image');
 
 /* ------------------------------------------------ */
 

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\MathJaxController;
-use Illuminate\Http\Request;
 
 it('breaks a string with math within into an array of strings with data URIs', function () {
     // initialize variables
@@ -9,9 +8,9 @@ it('breaks a string with math within into an array of strings with data URIs', f
     $controller = new MathJaxController();
 
     // make the request
-    $response = $controller->questionToParts($question);
+    $response = $controller->questionReformat($question);
     // assertions
-    expect($response)->toBeArray();
+    expect($response)->toBeString();
 })->group('MathJaxControllerPrivate')->skip();
 
 // change to public method for testing

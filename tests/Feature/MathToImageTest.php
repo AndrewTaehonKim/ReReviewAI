@@ -8,15 +8,13 @@ it('turns a sentence with math into html', function () {
     $stringEquation = "Solve for $\\frac{dy}{dx}$ given $ y=e^x-cos(x) $. Good?";
     $request = ['stringEquation' => $stringEquation];
     // get response
-    $response = $this->post('/math-to-html', $request)->getContent();
-    $html = json_decode($response)[0];
-    $paths = json_decode($response)[1];
+    $response = $this->post('/math-to-image', $request)->getContent();
+    $path = $response;
+
     // assertion
-    expect($html)->toBeString();
-    expect($html)->toContain("Solve for");
-    expect($html)->toContain("Good?");
-    expect($html)->toContain("<img src=");
-    expect($paths)->toBeArray();
+    expect($path)->toBeString();
+    expect($path)->toContain('app/images/calc/');
+    expect($path)->toContain('.png');
 
     // remove saved files
     $directory = 'images/calc';

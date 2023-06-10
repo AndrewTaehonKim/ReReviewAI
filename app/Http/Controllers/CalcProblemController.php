@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\CalcEmail;
-use App\Models\CalcHTML;
+use App\Models\CalcImage;
 use App\Models\CalcProblem;
 use App\Models\PythonFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -40,7 +38,7 @@ class CalcProblemController extends Controller
         return $view;
     }
     
-    public function getUniqueProblem(Request $request)
+    public function getUniqueProblem(Request $request) // the request is ['type'=> 'problem_type']
     {
         $id = 0; // initialize problem id
         // For Authorized User
@@ -62,62 +60,64 @@ class CalcProblemController extends Controller
             // If the user has seen all the problems -> make a new problem
             else {
                 // make problem
-                $id = $this->makeStoreShow($request);
+                $id = $this->makeStore($request);
             }
         }
         // For Guests
         else if (Auth::guest()) {
             $randomProblem = CalcProblem::inRandomOrder()->first();
-            $id = $randomProblem->id;
+            if ($randomProblem) {
+                $id = $randomProblem->id;
+            }
+            else {
+                $id = $this->makeStore($request);
+            }
         }
         return $id;
     }
 
-    // saves all parts of the problem as html in the CalcHTML Database if it doesn't already exist and returns a
+    // saves all parts of the problem as html in the CalcImage Database if it doesn't already exist and returns a
     public function makeEmailData(CalcProblem $calcProblem)
     {
         $calcEmail = new CalcEmail();
         // if code and images already exist in the database
-        if($calcProblem->calcHTML()->exists()) {
+        if($calcProblem->CalcImage()->exists()) {
             // get html stuff directly
-            $calcEmail->question = $calcProblem->calcHTML()->question;
-            $calcEmail->A = $calcProblem->calcHTML()->A;
-            $calcEmail->B = $calcProblem->calcHTML()->B;
-            $calcEmail->C = $calcProblem->calcHTML()->C;
-            $calcEmail->D = $calcProblem->calcHTML()->D;
-            $calcEmail->answer = $calcProblem->calcHTML()->answer;
+            $calcEmail->question = $calcProblem->CalcImage->question;
+            $calcEmail->A = $calcProblem->CalcImage->A;
+            $calcEmail->B = $calcProblem->CalcImage->B;
+            $calcEmail->C = $calcProblem->CalcImage->C;
+            $calcEmail->D = $calcProblem->CalcImage->D;
+            $calcEmail->answer = $calcProblem->CalcImage->answer;
         }
         else {
             // get the html
-            $calcHTML = new CalcHTML();
+            $CalcImage = new CalcImage();
             $controller = new MathJaxController();
-            $question = $controller->mathToHTML(new Request(['stringEquation' => $calcProblem->question]));
-            $A = $controller->mathToHTML(new Request(['stringEquation' => $calcProblem->A]));
-            $B = $controller->mathToHTML(new Request(['stringEquation' => $calcProblem->B]));
-            $C = $controller->mathToHTML(new Request(['stringEquation' => $calcProblem->C]));
-            $D = $controller->mathToHTML(new Request(['stringEquation' => $calcProblem->D]));
-            $answer = $controller->mathToHTML(new Request(['stringEquation' => $calcProblem->answer]));
+            $question = $controller->mathToImage(new Request(['stringEquation' => $calcProblem->question]));
+            $A = $controller->mathToImage(new Request(['stringEquation' => $calcProblem->A]));
+            $B = $controller->mathToImage(new Request(['stringEquation' => $calcProblem->B]));
+            $C = $controller->mathToImage(new Request(['stringEquation' => $calcProblem->C]));
+            $D = $controller->mathToImage(new Request(['stringEquation' => $calcProblem->D]));
+            $answer = $controller->mathToImage(new Request(['stringEquation' => $calcProblem->answer]));
             
-            // save html to the calcHTML database
-            $calcHTML->question = $question[0];
-            $calcHTML->A = $A[0];
-            $calcHTML->B = $B[0];
-            $calcHTML->C = $C[0];
-            $calcHTML->D = $D[0];
-            $calcHTML->answer = $answer[0];
-            // save paths
-            $paths = [$question[1], $A[1], $B[1], $C[1], $D[1], $answer[1]];
-            $calcHTML->imagePaths = json_encode($paths);
+            // save html to the CalcImage database
+            $CalcImage->question = $question;
+            $CalcImage->A = $A;
+            $CalcImage->B = $B;
+            $CalcImage->C = $C;
+            $CalcImage->D = $D;
+            $CalcImage->answer = $answer;
 
-            $calcHTML->save();
+            $calcProblem->CalcImage()->save($CalcImage);
 
             // set calcEmail to data
-            $calcEmail->question = $question[0];
-            $calcEmail->A = $A[0];
-            $calcEmail->B = $B[0];
-            $calcEmail->C = $C[0];
-            $calcEmail->D = $D[0];
-            $calcEmail->answer = $answer[0];
+            $calcEmail->question = $question;
+            $calcEmail->A = $A;
+            $calcEmail->B = $B;
+            $calcEmail->C = $C;
+            $calcEmail->D = $D;
+            $calcEmail->answer = $answer;
         }
 
         // fill out the rest of the data

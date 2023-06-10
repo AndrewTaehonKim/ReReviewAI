@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\CalcEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -14,11 +15,32 @@ class DailyCalcProblem extends Notification
     /**
      * Create a new notification instance.
      */
+    // initialize variables
+    protected $question;
+    protected $A;
+    protected $B;
+    protected $C;
+    protected $D;
+    protected $answer_letter;
+    protected $answer;
+    protected $difficulty;
+    protected $tutorial_video;
+    protected $collegeboard_unit;
+    protected $tags;
 
-    protected $problem;
-    public function __construct($problem)
+    public function __construct(CalcEmail $calcEmail)
     {
-        $this->problem = json_encode($problem);
+        $this->question = $calcEmail->question;
+        $this->A = $calcEmail->A;
+        $this->B = $calcEmail->B;
+        $this->C = $calcEmail->C;
+        $this->D = $calcEmail->D;
+        $this->answer_letter = $calcEmail->answer_letter;
+        $this->answer = $calcEmail->answer;
+        $this->difficulty = $calcEmail->difficulty;
+        $this->tutorial_video = $calcEmail->tutorial_video;
+        $this->collegeboard_unit = $calcEmail->collegeboard_unit;
+        $this->tags = $calcEmail->tags;
     }
 
     /**
@@ -39,8 +61,18 @@ class DailyCalcProblem extends Notification
         return (new Mailable)
                     ->to($notifiable->email)
                     ->subject("Re:Review AI - Today's Review")
-                    ->markdown('calcProblem.email', [
-                        'problem' => $this->problem,
+                    ->view('calcProblem.email', [
+                        'question' => $this->question,
+                        'A' => $this->A,
+                        'B' => $this->B,
+                        'C' => $this->C,
+                        'D' => $this->D,
+                        'answer_letter' => $this->answer_letter,
+                        'answer' => $this->answer,
+                        'difficulty' => $this->difficulty,
+                        'tutorial_video' => $this->tutorial_video,
+                        'collegeboard_unit' => $this->collegeboard_unit,
+                        'tags' => $this->tags,
                     ]);
     }
 
