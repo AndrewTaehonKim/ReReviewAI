@@ -30,4 +30,4 @@ it('turns a sentence with math into html', function () {
             Storage::delete($file);
         }
     }
-})->skip();
+});

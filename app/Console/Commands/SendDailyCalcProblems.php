@@ -9,6 +9,7 @@ use App\Notifications\DailyCalcProblem;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class SendDailyCalcProblems extends Command
 {
@@ -31,7 +32,6 @@ class SendDailyCalcProblems extends Command
     public function handle()
     {
         // get all users
-        // $users = User::all();
         $users = User::where('name', '!=', 'Test User')->get();
 
         $problem_type = 'power_rule';

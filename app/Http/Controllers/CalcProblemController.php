@@ -137,10 +137,10 @@ class CalcProblemController extends Controller
         $problem->fill($problemData);
 
         // fix answer choices
-        $problem->A = '$'.$problem->A.'$';
-        $problem->B = '$'.$problem->B.'$';
-        $problem->C = '$'.$problem->C.'$';
-        $problem->D = '$'.$problem->D.'$';
+        $problem->A = '$\textbf{A.}\quad '.$problem->A.'$';
+        $problem->B = '$\textbf{B.}\quad '.$problem->B.'$';
+        $problem->C = '$\textbf{C.}\quad '.$problem->C.'$';
+        $problem->D = '$\textbf{D.}\quad '.$problem->D.'$';
         $problem->answer = '$'.$problem->answer.'$';
 
         // Connect Calc Problem to python file

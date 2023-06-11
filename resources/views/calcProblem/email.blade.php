@@ -1,25 +1,26 @@
 <x-mail::message>
 <x-mail::panel>
-***Today's Review***
-________________________________________________________________
+<h2>Today's Review</h2>
+<h5> </h5>
 
 <img src="{{ $message->embed(storage_path($question))}}">
-
-**A.** <img src="{{ $message->embed(storage_path($A))}}">
-**B.** <img src="{{ $message->embed(storage_path($B))}}">
-**C.** <img src="{{ $message->embed(storage_path($C))}}">
-**D.** <img src="{{ $message->embed(storage_path($D))}}">
+<ul style="list-style-type:none;">
+    <li> <img src="{{ $message->embed(storage_path($A))}}"></li>
+    <li> <img src="{{ $message->embed(storage_path($B))}}"></li>
+    <li> <img src="{{ $message->embed(storage_path($C))}}"></li>
+    <li> <img src="{{ $message->embed(storage_path($D))}}"></li>
+</ul>
 </x-mail::panel>
-________________________________________________________________
+<h3>The correct answers are located at the bottom of this email</h3>
+
+<h5> </h5>
 
 **{{ $collegeboard_unit }}**
 
-_The correct answers are located at the bottom of this email._
-
-**Having Trouble? Watch this Short Video:** [Watch Here]({{ $tutorial_video }})
+*Having Trouble?* _Watch this Quick Video:_ [Review Here]({{ $tutorial_video }})
 
 <x-slot:subcopy>
-**Answer:** {{ $answer_letter }}
+    <div class="answer"> <b>Answer:</b> {{ $answer_letter }} </div>
 </x-slot:subcopy>
 
 </x-mail::message>

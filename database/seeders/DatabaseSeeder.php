@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->call(PythonFilesSeeder::class);
         $this->call(CalcProblemSeeder::class);
+        $this->call(CalcImagesSeeder::class);
     }
 }

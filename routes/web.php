@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CalcProblemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MathJaxController;
+use App\Models\CalcProblem;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /* Navigation Routes */
@@ -21,14 +23,12 @@ Route::get('/test', function () {
 /* ------------------------------------------------ */
 
 /* Controller Routes */
-    // makes and stores calc problem in the database -> returns the problem object
     // makes, stores, and redirects to show the problem
 Route::post('/make-store-show-calc-problem', [CalcProblemController::class, 'makeStoreShow'])->name('make-store-show-calc-problem');
     // gets a problem that a user has not yet seen
 Route::post('/get-unique-calc-problem', [CalcProblemController::class, 'getUniqueProblem'])->name('get-unique-problem');
     // rewrite a stringEquation into html with embedded images
 Route::post('/math-to-image', [MathJaxController::class, 'mathToImage'])->name('math-to-image');
-
 /* ------------------------------------------------ */
 
 /* Routes that Require Authentication */
@@ -41,3 +41,17 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+/* ------------------------------------------------ */
+
+/* Testing Routes */
+    // mail
+Route::get('/mailable', function () {
+        $calcProblem = CalcProblem::find(1);
+        $controller = new CalcProblemController;
+        $calcEmail = $controller->makeEmailData($calcProblem);
+        $mail = new \App\Notifications\DailyCalcProblem($calcEmail);
+        $user = User::find(1);
+        return (new \App\Notifications\DailyCalcProblem($calcEmail))->toMail($user);    
+        
+    });
