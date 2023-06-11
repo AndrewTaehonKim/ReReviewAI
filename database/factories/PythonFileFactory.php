@@ -17,10 +17,10 @@ class PythonFileFactory extends Factory
     public function definition(): array
     {
         return [
-            'filename' => $this->faker->word,
-            'filenameWithoutExtension' => $this->faker->word,
-            'path'=> $this->faker->word,
-            'subject' => $this->faker->word
+            'filename' => 'power_rule.py',
+            'filenameWithoutExtension' => 'power_rule',
+            'path'=> 'storage\app\python\calcBC\power_rule.py',
+            'subject' => 'calcBC',
         ];
     }
 }

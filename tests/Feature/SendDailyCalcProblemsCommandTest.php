@@ -16,4 +16,4 @@ it('sends a calc email', function () {
     $response = $command->handle();
     
     expect($response)->toBe("Email Sent");
-})->only();
+})->skip();

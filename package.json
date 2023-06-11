@@ -7,7 +7,8 @@
         "test": "php ./vendor/bin/pest && php artisan db:seed",
         "route-reload": "php artisan route:clear && php artisan route:cache",
         "migrate": "php artisan migrate:fresh && php artisan db:seed",
-        "reset": "php artisan route:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear"
+        "reset": "php artisan route:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear",
+        "mail": "php artisan email:send-daily-calc-problems"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

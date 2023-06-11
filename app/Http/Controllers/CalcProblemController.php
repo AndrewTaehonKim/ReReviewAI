@@ -81,17 +81,7 @@ class CalcProblemController extends Controller
     {
         $calcEmail = new CalcEmail();
         // if code and images already exist in the database
-        if($calcProblem->CalcImage()->exists()) {
-            // get html stuff directly
-            $calcEmail->question = $calcProblem->CalcImage->question;
-            $calcEmail->A = $calcProblem->CalcImage->A;
-            $calcEmail->B = $calcProblem->CalcImage->B;
-            $calcEmail->C = $calcProblem->CalcImage->C;
-            $calcEmail->D = $calcProblem->CalcImage->D;
-            $calcEmail->answer = $calcProblem->CalcImage->answer;
-        }
-        else {
-            // get the html
+        if(!$calcProblem->CalcImage()->exists()) {
             $CalcImage = new CalcImage();
             $controller = new MathJaxController();
             $question = $controller->mathToImage(new Request(['stringEquation' => $calcProblem->question]));
@@ -120,7 +110,12 @@ class CalcProblemController extends Controller
             $calcEmail->answer = $answer;
         }
 
-        // fill out the rest of the data
+        $calcEmail->question = $calcProblem->CalcImage->question;
+        $calcEmail->A = $calcProblem->CalcImage->A;
+        $calcEmail->B = $calcProblem->CalcImage->B;
+        $calcEmail->C = $calcProblem->CalcImage->C;
+        $calcEmail->D = $calcProblem->CalcImage->D;
+        $calcEmail->answer = $calcProblem->CalcImage->answer;
         $calcEmail->answer_letter = $calcProblem->answer_letter;
         $calcEmail->difficulty = $calcProblem->difficulty;
         $calcEmail->tutorial_video = $calcProblem->tutorial_video;
@@ -133,14 +128,21 @@ class CalcProblemController extends Controller
     /* Private Functions */
 
     // Generates the Problems based on the type 
-    private function makeProblem(Request $request)
+    public function makeProblem(Request $request)
     {
         $filename = $request->input('type');
         $problemData = $this->runPythonScript($filename);
-
         // Fill out data for Calc Problem
         $problem = new CalcProblem();
         $problem->fill($problemData);
+
+        // fix answer choices
+        $problem->A = '$'.$problem->A.'$';
+        $problem->B = '$'.$problem->B.'$';
+        $problem->C = '$'.$problem->C.'$';
+        $problem->D = '$'.$problem->D.'$';
+        $problem->answer = '$'.$problem->answer.'$';
+
         // Connect Calc Problem to python file
         $pythonFile = PythonFile::where('filename', $filename.'.py')->first();
         if($pythonFile){

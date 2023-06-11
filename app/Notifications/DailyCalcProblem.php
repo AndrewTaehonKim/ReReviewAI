@@ -61,7 +61,7 @@ class DailyCalcProblem extends Notification
         return (new Mailable)
                     ->to($notifiable->email)
                     ->subject("Re:Review AI - Today's Review")
-                    ->view('calcProblem.email', [
+                    ->markdown('calcProblem.email', [
                         'question' => $this->question,
                         'A' => $this->A,
                         'B' => $this->B,

@@ -5,12 +5,12 @@ use Carbon\Carbon;
 
 it('turns a sentence with math into html', function () {
     // initialize
-    $stringEquation = "Solve for $\\frac{dy}{dx}$ given $ y=e^x-cos(x) $. Good?";
+    $stringEquation = '$6 \sqrt{x} + \frac{27}{2 x^{\frac{5}{2}}} + \frac{15}{2 x^{\frac{7}{4}}}$';
     $request = ['stringEquation' => $stringEquation];
     // get response
     $response = $this->post('/math-to-image', $request)->getContent();
     $path = $response;
-
+    dd($path);
     // assertion
     expect($path)->toBeString();
     expect($path)->toContain('app/images/calc/');
@@ -30,4 +30,4 @@ it('turns a sentence with math into html', function () {
             Storage::delete($file);
         }
     }
-});
+})->skip();

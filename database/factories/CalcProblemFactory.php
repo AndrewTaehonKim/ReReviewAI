@@ -19,17 +19,17 @@ class CalcProblemFactory extends Factory
     public function definition(): array
     {
         return [
-            'question' => 'Solve for $\\frac{dy}{dx}$ given $ y=e^x-cos(x) $. Good?',
-            'A' => 'The answer is: $e^x$',
+            'question' => 'Solve for $\\frac{dy}{dx}$ given $ y=e^x-cos(x) $',
+            'A' => '$\\frac{dy}{dx} = e^x-sin(x)$',
             'B' => '$\\frac{dy}{dx} = e^x+sin(x)$',
-            'C' => 'No',
-            'D' => '$\\frac{dy}{dx}$ = $e^x+sin(x)$',
-            'answer_letter' => $this->faker->randomElement(['A', 'B', 'C', 'D']),
+            'C' => '$\\frac{dy}{dx} = e^x+cos(x)$',
+            'D' => '$\\frac{dy}{dx}$ = $e^{x-1}+sin(x)$',
+            'answer_letter' => 'B',
             'answer' => 'The answer is: $\\frac{dy}{dx} = e^x+sin(x)$',
-            'difficulty' => $this->faker->randomElement(['easy', 'medium', 'hard']),
-            'tutorial_video' => $this->faker->url,
-            'collegeboard_unit' => $this->faker->randomElement(['Unit 1', 'Unit 2', 'Unit 3']),
-            'tags' => json_encode($this->faker->words(3)),
+            'difficulty' => 'easy',
+            'tutorial_video' => 'https://www.youtube.com/watch?v=uEtl_ZaFx-c&t=1s&ab_channel=Mr.A',
+            'collegeboard_unit' => 'Unit 2: Differentiation: Definition and Fundamental Properties',
+            'tags' => json_encode(["power_rule"]),
             'python_file_id' => PythonFile::factory()->create()->id
         ];
     }

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\DailyCalcProblem;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SendDailyCalcProblems extends Command
 {
@@ -39,12 +40,16 @@ class SendDailyCalcProblems extends Command
         // loop through each user
         foreach ($users as $user)
         {
+            // Set the authenticated user
+            Auth::login($user);
             // get unique problem id
             $problemID = $calcProblemController->getUniqueProblem($request);
 
             $problem = CalcProblem::FindorFail($problemID);
             $calcEmail = $calcProblemController->makeEmailData($problem);
             $user->notify(new DailyCalcProblem($calcEmail));
+            Auth::logout();
+
         }
 
         // $this->info('Emails Sent.');

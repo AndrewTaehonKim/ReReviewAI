@@ -51,28 +51,8 @@ class MathJaxController extends Controller
         $dataURI = $this->mathToDataURI($finalString);
 
         return $dataURI;
-    }
-
-    // // converts an array of strings and data uris to html
-    // public function partsToHTML($parts)
-    // {
-    //     $htmlCode = '<p style="color: red">';
-    //     $datauri = 'data:image/png';
-    //     $paths = [];
-    //     foreach ($parts as $part) {
-    //         if (strpos($part, $datauri) !== false){
-    //             $path = $this->convertToImage($part);
-    //             array_push($paths, $path);
-    //             $htmlCode.= '<img src="{{ $message->embed(storage_path(\''.$path.'\'))}}">';
-    //         }
-    //         else {
-    //             $htmlCode.= $part;
-    //         }
-    //     }
-    //     $htmlCode.= '</p>';
-    //     return [$htmlCode, $paths];
-    // }
-
+    } 
+    
     // converts a data URI into an image and returns the temporary path
     private function convertToImage($dataURI)
     {
