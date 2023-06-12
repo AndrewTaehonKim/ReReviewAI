@@ -26,7 +26,7 @@ class BetaTesterSeeder extends Seeder
         ]);
         User::create([
             'name' => 'Haniel ',
-            'email' => 'hanieljing68@gmail.com@gmail.com',
+            'email' => 'hanieljing68@gmail.com',
             'password' => bcrypt('beta1234'),
         ]);
     }
