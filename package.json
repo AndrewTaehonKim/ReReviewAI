@@ -9,6 +9,7 @@
         "migrate": "php artisan migrate:fresh && php artisan db:seed",
         "reset": "php artisan route:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear",
         "mail": "php artisan email:send-daily-calc-problems",
+        "test-mail": "php artisan email:test",
         "beta-seed": "php artisan db:seed --class=BetaTesterSeeder"
     },
     "devDependencies": {
