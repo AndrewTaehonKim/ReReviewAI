@@ -31,12 +31,12 @@ class SendDailyCalcProblems extends Command
      */
     public function handle()
     {
+        $calcProblemController = new CalcProblemController();
         // get all users
         $users = User::where('name', '!=', 'Test User')->get();
 
-        $problem_type = 'power_rule';
+        $problem_type = $calcProblemController->getRandomProblemType();
         $request = new Request(['type' => $problem_type]);
-        $calcProblemController = new CalcProblemController();
         // loop through each user
         foreach ($users as $user)
         {

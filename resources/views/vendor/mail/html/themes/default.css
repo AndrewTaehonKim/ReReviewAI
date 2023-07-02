@@ -1,12 +1,3 @@
-/* Set Variables */
-:root {
-    --dark-color: #050505;
-    --light-color: #F4F3F7;
-    --heading-color: #363536;
-    --accent-color: #51AED2;
-    --action-color: #E39616;
-}
-
 /* Base */
 body,
 body *:not(html):not(style):not(br):not(tr):not(code) {
@@ -301,6 +292,7 @@ img {
 
 .panel-content {
     background-color: #F4F3F7;
+    border-radius: 15%;
     color: #718096;
     padding: 16px;
 }
@@ -318,9 +310,11 @@ img {
     padding-bottom: 0;
 }
 
-
 /* Utilities */
 
 .break-all {
     word-break: break-all;
 }
+
+
+

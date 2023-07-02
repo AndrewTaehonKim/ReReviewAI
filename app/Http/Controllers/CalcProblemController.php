@@ -125,10 +125,15 @@ class CalcProblemController extends Controller
         return $calcEmail;
     }
 
+    public function getRandomProblemType() {
+        $randomProblemType = PythonFile::inRandomOrder()->value('filenameWithoutExtension');
+        return $randomProblemType;
+    }
+
     /* Private Functions */
 
     // Generates the Problems based on the type 
-    public function makeProblem(Request $request)
+    private function makeProblem(Request $request)
     {
         $filename = $request->input('type');
         $problemData = $this->runPythonScript($filename);
@@ -175,7 +180,7 @@ class CalcProblemController extends Controller
         $process = new Process(['python', $pythonScriptPath], env: [
             'SYSTEMROOT' => getenv('SYSTEMROOT'),
             'PATH' => getenv("PATH")
-    ]);
+        ]);
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -191,4 +196,6 @@ class CalcProblemController extends Controller
         // Return a response
         return $data;
     }
+    
 }
+
